@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ethereum Leave Message</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@4.1.1/dist/web3.min.js"></script>
+</head>
+
+<body>
+    <h1>Ethereum Leave Messgae</h1>
+    <p>Leave a permanent message on the Ethereum blockchain.</p>
+    <div>
+        <label for="messageInput">Message:</label>
+        <input id="messageInput" type="text" value="Your message!" />
+        <label for="messageInput">Address:</label>
+        <input id="addressInput" type="text" value="0x0000000000000000000000000000000000000000" />
+        <label for="messageInput">Amount (in Ether):</label>
+        <input id="amountInput" type="text" value="0.000001" />
+    </div>
+    <p id="message"></p>
+    <button id="sendEthButton">Send ETH</button>
+    <hr>
+    <h2>FAQ</h2>
+    <h3>What is this? & How it works?</h3>
+    <p>
+        This webpage is a little helper for sending a transaction to the evm-compatiable blockchain with a piece of
+        arbitrary message encoded and stored in <code>data</code>.<br>
+        I personally use it to leave a permanent happy-birthday to my mother.
+    </p>
+    <h3>How to use it?</h3>
+    <p>
+        It requires a web3-enabled browser (plugin), such as <a href="https://metamask.io/">Metamask</a>. (Only Metamask
+        is tested.)<br>
+        Fill in the form and approve the transaction in the popup. After the transaction is confirmed, the message will
+        be stored in the blockchain forever. To view it, go to the corresponding blockchain explorer and search for the
+        transaction hash. You can see the message in the <code>Input Data</code> field. (Make sure you view it in UTF-8
+        encoding.)<br>
+        Also feel free to change the network to any evm-compatiable blockchain, such as BSC, Optimism, etc.
+    </p>
+    <h3>Is it safe?</h3>
+    <p>
+        Source code can be found at <a href="https://github.com/xiaoyu2006/eth-leave-msg">my GitHub repo</a>.
+    </p>
+    <h3>Wanna donate?</h3>
+    <p>
+        My GitHub: <a href="https://github.com/xiaoyu2006/">@xiaoyu2006</a><br>
+        My ETH address: <a
+            href="https://etherscan.io/address/0x02CbAd7f9BabC4313Ff590f92b0206d0C47CFc96"><code>0x02CbAd7f9BabC4313Ff590f92b0206d0C47CFc96</code></a><br>
+        Thanks for your support!
+    </p>
+    <script>
+        const sendEthButton = document.getElementById('sendEthButton')
+        const message = document.getElementById('message')
+
+        const ethEnabled = async () => {
+            if (window.ethereum) {
+                await window.ethereum.request({ method: 'eth_requestAccounts' })
+                return web3 = new Web3(window.ethereum)
+            }
+            return null
+        }
+
+        // Send Ethereum to an address
+        sendEthButton.addEventListener('click', () => {
+            ethEnabled().then((web3) => {
+                getAccount().then((accounts) => {
+                    const amountStr = document.getElementById('amountInput').value
+                    ethereum.request({
+                        method: 'eth_sendTransaction',
+                        // The following sends an EIP-1559 transaction. Legacy transactions are also supported.
+                        params: [
+                            {
+                                from: accounts[0], // The user's active address.
+                                to: document.getElementById('addressInput').value,
+                                value: web3.utils.numberToHex(web3.utils.toWei(amountStr, 'ether')),
+                                data: web3.utils.utf8ToHex(document.getElementById('messageInput').value),
+                            },
+                        ],
+                    }).then((txHash) => {
+                        console.log(txHash)
+                        message.innerText = `Transaction sent: ${txHash}`
+                    }).catch((error) => {
+                        console.error(error)
+                        message.innerText = `Transaction failed: ${error.message}`
+                    })
+                })
+            })
+        })
+
+        async function getAccount() {
+            return await ethereum.request({ method: 'eth_requestAccounts' })
+        }
+    </script>
+</body>
+
+</html>
