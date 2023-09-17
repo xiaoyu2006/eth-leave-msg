@@ -12,14 +12,15 @@
     <p>Leave a permanent message on the Ethereum blockchain.</p>
     <div>
         <label for="messageInput">Message:</label>
-        <input id="messageInput" type="text" value="Your message!" />
+        <textarea id="messageInput">Your message!</textarea><br>
         <label for="messageInput">Address:</label>
-        <input id="addressInput" type="text" value="0x0000000000000000000000000000000000000000" />
+        <input id="addressInput" type="text" value="0x0000000000000000000000000000000000000000" size="42" /><br>
         <label for="messageInput">Amount (in Ether):</label>
-        <input id="amountInput" type="text" value="0.000001" />
+        <input id="amountInput" type="text" value="0.0000001" />
     </div>
+    <br>
     <p id="message"></p>
-    <button id="sendEthButton">Send ETH</button>
+    <button id="sendEthButton">Send</button>
     <hr>
     <h2>FAQ</h2>
     <h3>What is this? & How it works?</h3>
@@ -32,7 +33,7 @@
     <p>
         It requires a web3-enabled browser (plugin), such as <a href="https://metamask.io/">Metamask</a>. (Only Metamask
         is tested.)<br>
-        Fill in the form and approve the transaction in the popup. After the transaction is confirmed, the message will
+        Fill in the form, click on <code>Send</code> and approve the transaction in the popup. After the transaction is confirmed, the message will
         be stored in the blockchain forever. To view it, go to the corresponding blockchain explorer and search for the
         transaction hash. You can see the message in the <code>Input Data</code> field. (Make sure you view it in UTF-8
         encoding.)<br>
